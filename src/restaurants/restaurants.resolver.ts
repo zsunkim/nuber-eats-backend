@@ -4,12 +4,12 @@ import { Restaurant } from './entities/restaurants.entity';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
-  @Query(() => [Restaurant])
+  @Query(returns => [Restaurant])
   restaurants(@Args('veganOnly') veganOnly: boolean): Restaurant[] {
     return [];
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(returns => Boolean)
   createRestaurant(@Args() createRestaurantDto: CreateRestaurantDto): boolean {
     console.log(createRestaurantDto);
     return true;
