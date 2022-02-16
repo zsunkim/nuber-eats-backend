@@ -5,7 +5,7 @@
 3개의 대시보드(레스토랑, 배달, 유저)와 결제 시스템, 데이터 시각화, 구글맵 연동
 
 
-## 스펙
+## Tech Stack
 
 <p>
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/></a>&nbsp
