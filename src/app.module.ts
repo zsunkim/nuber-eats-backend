@@ -31,7 +31,7 @@ import { Restaurant } from './restaurants/entities/restaurants.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== "prod", // database를 모듈의 현재 상태로 마이그래이션
-      logging: true, // database에서 일어나는 것을 콘솔로 표시
+      logging: process.env.NODE_ENV !== "prod", // database에서 일어나는 것을 콘솔로 표시
       entities: [Restaurant]
     }),
     GraphQLModule.forRoot({
