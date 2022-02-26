@@ -5,3 +5,19 @@
 type Query {
   hi: Boolean!
 }
+
+type Mutation {
+  createAccount(input: createAccountInput!): Boolean!
+}
+
+input createAccountInput {
+  email: String!
+  password: String!
+  role: UserRole!
+}
+
+enum UserRole {
+  Client
+  Wwner
+  Delivery
+}
