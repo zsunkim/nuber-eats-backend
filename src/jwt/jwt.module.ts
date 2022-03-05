@@ -1,5 +1,6 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
-import { JwtModuleOptions } from './interface/jwt-module-options.interface';
+import { CONFIG_OPTIONS } from './jwt.constants';
+import { JwtModuleOptions } from './jwt.interfaces';
 import { JwtService } from './jwt.service';
 
 @Module({})
@@ -9,7 +10,13 @@ export class JwtModule {
     return {
       module: JwtModule,
       exports: [JwtService],
-      providers: [JwtService]
+      providers: [
+        {
+          provide: CONFIG_OPTIONS, // JwtService를 provide하고 (class 대신 value를 넣어도 가능)
+          useClass: JwtService // JwtService를 사용한다.
+        },
+        JwtService
+      ]
     }
   }
 }
