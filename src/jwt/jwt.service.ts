@@ -13,4 +13,9 @@ export class JwtService {
     console.log(payload);
     return jwt.sign(payload, this.options.privateKey);
   }
+
+  verify(token: string) {
+    console.log(token);
+    return jwt.verify(token, this.options.privateKey);
+  }
 }
