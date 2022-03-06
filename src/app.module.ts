@@ -41,7 +41,8 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       entities: [User]
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: true,
+      context: ({ req }) => ({ user: req['user'] })
     }),
     JwtModule.forRoot({
       privateKey: process.env.SECRET_KEY,
