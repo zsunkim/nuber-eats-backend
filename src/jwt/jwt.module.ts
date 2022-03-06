@@ -13,7 +13,7 @@ export class JwtModule {
       providers: [
         {
           provide: CONFIG_OPTIONS, // JwtService를 provide하고 (class 대신 value를 넣어도 가능)
-          useClass: JwtService // JwtService를 사용한다.
+          useValue: options // JwtService를 사용한다.
         },
         JwtService
       ]
