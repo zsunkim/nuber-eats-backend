@@ -42,6 +42,10 @@ export class UsersResolver {
 
   @Query(returns => User)
   me(@Context() context) {
-    console.log(context);
+    if (!context.user) {
+      return;
+    } else {
+      return context.user;
+    }
   }
 }
