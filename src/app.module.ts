@@ -48,7 +48,6 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       privateKey: process.env.SECRET_KEY,
     }),
     UsersModule,
-    CommonModule,
   ],
   controllers: [],
   providers: [],
