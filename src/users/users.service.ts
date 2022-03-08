@@ -4,6 +4,7 @@ import { CreateAccountInput } from "./dtos/create-account.dto";
 import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
 import { JwtService } from "src/jwt/jwt.service";
+import { EditProfileInput } from "./dtos/edit-profile.dto";
 
 export class UsersService {
   constructor(
@@ -58,5 +59,9 @@ export class UsersService {
 
   async findById(id: number): Promise<User> {
     return this.userRepository.findOne({ id });
+  }
+
+  async editProfile(userId: number, { email, password }: EditProfileInput) {
+    return this.userRepository.update(userId, { email, password });
   }
 }
