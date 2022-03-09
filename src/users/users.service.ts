@@ -5,11 +5,14 @@ import { LoginInput } from "./dtos/login.dto";
 import { User } from "./entities/user.entity";
 import { JwtService } from "src/jwt/jwt.service";
 import { EditProfileInput } from "./dtos/edit-profile.dto";
+import { Verification } from "./entities/verification.entity";
 
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Verification)
+    private readonly verifications: Repository<Verification>,
     private readonly jwtService: JwtService,
   ) { }
 
@@ -20,7 +23,8 @@ export class UsersService {
       if (exists) {
         return { ok: false, error: '이미 존재하는 이메일입니다.' };
       }
-      await this.userRepository.save(this.userRepository.create({ email, password, role }));
+      const user = await this.userRepository.save(this.userRepository.create({ email, password, role }));
+      await this.verifications.save(this.verifications.create({ user }));
       return { ok: true };
     } catch (error) {
       console.log(error);
@@ -68,6 +72,8 @@ export class UsersService {
     const user = await this.userRepository.findOne(userId);
     if (email) {
       user.email = email;
+      user.verified = false;
+      await this.verifications.save(this.verifications.create({ user }));
     }
     if (password) {
       user.password = password;
