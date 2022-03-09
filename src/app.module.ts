@@ -11,6 +11,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { Verification } from './users/entities/verification.entity';
 
 @Module({
   imports: [
@@ -38,7 +39,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== "prod", // database를 모듈의 현재 상태로 마이그래이션
       logging: process.env.NODE_ENV !== "prod", // database에서 일어나는 것을 콘솔로 표시
-      entities: [User]
+      entities: [User, Verification]
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,
