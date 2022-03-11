@@ -34,7 +34,7 @@ export class UsersService {
 
   async login({ email, password }: LoginInput): Promise<{ ok: boolean; error?: string, token?: string }> {
     try {
-      const user = await this.userRepository.findOne({ email });
+      const user = await this.userRepository.findOne({ email }, { select: ['password'] });
       if (!user) {
         return {
           ok: false,
@@ -82,15 +82,22 @@ export class UsersService {
   }
 
   async verifyEmail(code: string): Promise<boolean> {
-    const verification = await this.verifications.findOne(
-      { code },
-      { relations: ['user'] },
-    );
-    if (verification) {
-      verification.user.verified = true;
-      this.userRepository.save(verification.user);
+    try {
+      const verification = await this.verifications.findOne(
+        { code },
+        { relations: ['user'] },
+      );
+      if (verification) {
+        verification.user.verified = true;
+        console.log(verification.user);
+        this.userRepository.save(verification.user);
+        return true;
+      }
+      throw new Error();
+    } catch (e) {
+      console.log(e);
+      return false;
     }
-    return false;
   }
 
 
