@@ -80,4 +80,18 @@ export class UsersService {
     }
     return this.userRepository.save(user);
   }
+
+  async verifyEmail(code: string): Promise<boolean> {
+    const verification = await this.verifications.findOne(
+      { code },
+      { relations: ['user'] },
+    );
+    if (verification) {
+      verification.user.verified = true;
+      this.userRepository.save(verification.user);
+    }
+    return false;
+  }
+
+
 }
