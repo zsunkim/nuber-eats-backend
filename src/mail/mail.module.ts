@@ -4,17 +4,17 @@ import { MailModuleInterface } from './mail.interface';
 
 @Module({})
 export class MailModule {
-    static forRoot(options: MailModuleInterface): DynamicModule {
-        return {
-            module: MailModule,
-            providers: [
-                {
-                    provide: CONFIG_OPTIONS,
-                    useValue: options
-                },
+  static forRoot(options: MailModuleInterface): DynamicModule {
+    return {
+      module: MailModule,
+      providers: [
+        {
+          provide: CONFIG_OPTIONS,
+          useValue: options
+        },
 
-            ],
-            exports: [],
-        }
+      ],
+      exports: [],
     }
+  }
 }
