@@ -8,6 +8,7 @@ import { EditProfileInput, EditProfileOutput } from "./dtos/edit-profile.dto";
 import { Verification } from "./entities/verification.entity";
 import { UserProfileOutput } from "./dtos/user-profile.dto";
 import { VerifyEmailOutput } from "./dtos/verify-email.dto";
+import { MailService } from "src/mail/mail.service";
 
 export class UsersService {
   constructor(
@@ -16,6 +17,7 @@ export class UsersService {
     @InjectRepository(Verification)
     private readonly verifications: Repository<Verification>,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) { }
 
   async createAccount({ email, password, role }: CreateAccountInput): Promise<CreateAccountOutput> {
@@ -26,7 +28,8 @@ export class UsersService {
         return { ok: false, error: '이미 존재하는 이메일입니다.' };
       }
       const user = await this.userRepository.save(this.userRepository.create({ email, password, role }));
-      await this.verifications.save(this.verifications.create({ user }));
+      const verification = await this.verifications.save(this.verifications.create({ user }));
+      this.mailService.sendVerificationEmail(user.email, verification.code);
       return { ok: true };
     } catch (error) {
       console.log(error);
@@ -86,7 +89,8 @@ export class UsersService {
       if (email) {
         user.email = email;
         user.verified = false;
-        await this.verifications.save(this.verifications.create({ user }));
+        const verification = await this.verifications.save(this.verifications.create({ user }));
+        this.mailService.sendVerificationEmail(user.email, verification.code);
       }
       if (password) {
         user.password = password;
